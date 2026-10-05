@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: service-product
+  config:
+    import:
+      - "optional:classpath:/config/cloud.yml"
+      - "optional:classpath:/config/database.yml"
+      - "optional:classpath:/config/message-source.yml"
+      - "optional:classpath:/config/monitoring.yml"
+      - "optional:classpath:/config/kafka.yml"
+      - "optional:classpath:/config/cache.yml"
+
+  profiles:
+    active: ${PROFILE:dev}

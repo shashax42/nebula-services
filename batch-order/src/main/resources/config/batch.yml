@@ -1,0 +1,8 @@
+spring:
+  batch:
+    jdbc:
+      isolation-level-for-create: read_committed
+      initialize-schema: always
+    job:
+      enabled: true
+      name: ${JOB_NAME}

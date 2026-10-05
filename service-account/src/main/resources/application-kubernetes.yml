@@ -1,0 +1,9 @@
+spring:
+  config:
+    activate:
+      on-profile: kubernetes
+
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: none

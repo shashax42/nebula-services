@@ -1,0 +1,30 @@
+resilience4j:
+  circuitbreaker:
+    configs:
+      default: # 기본 구성 이름
+        registerHealthIndicator: true  # 애플리케이션의 헬스 체크에 서킷 브레이커 상태를 추가하여 모니터링 가능
+        slidingWindowType: COUNT_BASED  # 슬라이딩 윈도우의 타입을 호출 수 기반(COUNT_BASED)으로 설정
+        slidingWindowSize: 1000  # 슬라이딩 윈도우의 크기를 N번의 호출로 설정
+        minimumNumberOfCalls: 500  # 서킷 브레이커가 동작하기 위해 필요한 최소한의 호출 수를 5로 설정
+        slowCallRateThreshold: 60  # 느린 호출의 비율이 이 임계값을 초과하면 서킷 브레이커가 동작
+        slowCallDurationThreshold: 3000  # 느린 호출의 기준 시간(밀리초)으로, N초 이상 걸리면 느린 호출로 간주
+        failureRateThreshold: 40  # 실패율이 이 임계값을 초과하면 서킷 브레이커가 동작
+        permittedNumberOfCallsInHalfOpenState: 5  # 서킷 브레이커가 Half-open 상태에서 허용하는 최대 호출 수
+        waitDurationInOpenState: 20s  # Open 상태에서 Half-open 상태로 전환되기 전에 대기하는 시간
+        recordExceptions: # 서킷 브레이커가 열리는 예외
+          - java.util.concurrent.TimeoutException
+          - io.github.resilience4j.circuitbreaker.CallNotPermittedException
+        ignoreExceptions: # Fallback은 실행됨
+          - java.lang.IllegalStateException
+    instances:
+      accountCircuitBreaker:
+        baseConfig: default
+      orderCircuitBreaker:
+        baseConfig: default
+      productCircuitBreaker:
+        baseConfig: default
+  timelimiter:
+    configs:
+      default:
+        timeoutDuration: 3s
+        cancelRunningFuture: false

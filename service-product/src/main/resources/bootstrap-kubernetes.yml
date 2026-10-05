@@ -1,0 +1,13 @@
+spring:
+  config:
+    activate:
+      on-cloud-platform: kubernetes
+
+eureka:
+  client:
+    fetch-registry: false
+    register-with-eureka: false
+    enabled: false
+
+server:
+  port: 8080

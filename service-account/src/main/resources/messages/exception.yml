@@ -1,0 +1,4 @@
+account:
+  already_exists: "이미 존재하는 계정"
+  none_exists: "존재하지 않는 계정"
+  not_found: "해당 데이터 조회 불가"

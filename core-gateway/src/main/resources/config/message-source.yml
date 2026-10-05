@@ -1,0 +1,7 @@
+spring:
+  messages:
+    basename: messages/exception
+    encoding: UTF-8
+    always-use-message-format: true
+    use-code-as-default-message: true
+    fallback-to-system-locale: true

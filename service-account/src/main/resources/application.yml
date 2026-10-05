@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: service-account
+  config:
+    import:
+      - "optional:classpath:/config/database.yml"
+      - "optional:classpath:/config/session.yml"
+      - "optional:classpath:/config/message-source.yml"
+      - "optional:classpath:/config/monitoring.yml"
+
+  profiles:
+    active: ${PROFILE:dev}

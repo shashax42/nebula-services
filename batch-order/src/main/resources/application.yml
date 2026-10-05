@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: batch-order
+  main:
+    banner-mode: off
+  config:
+    import:
+      - "optional:classpath:/config/database.yml"
+      - "optional:classpath:/config/batch.yml"

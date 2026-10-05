@@ -1,0 +1,40 @@
+spring:
+  cloud:
+    discovery:
+      enabled: true
+#    gateway:
+#      mvc:
+#        routes:
+#          - id: service-account
+#            uri: lb://service-account
+#            predicates:
+#              - Path=/account/**
+#              - Method=GET,POST,PUT,PATCH,DELETE
+#            filters:
+#              - RewritePath=/account/?(?<segment>.*), /$\{segment}
+#              - name: CircuitBreaker
+#                args:
+#                  name: accountCircuitBreaker
+#                  fallbackUri: forward:/fallback/account
+#          - id: service-order
+#            uri: lb://service-order
+#            predicates:
+#              - Path=/order/**
+#              - Method=GET,POST,PUT,PATCH,DELETE
+#            filters:
+#              - RewritePath=/order/?(?<segment>.*), /$\{segment}
+#              - name: CircuitBreaker
+#                args:
+#                  name: orderCircuitBreaker
+#                  fallbackUri: forward:/fallback/order
+#          - id: service-product
+#            uri: lb://service-product
+#            predicates:
+#              - Path=/product/**
+#              - Method=GET,POST,PUT,PATCH,DELETE
+#            filters:
+#              - RewritePath=/product/?(?<segment>.*), /$\{segment}
+#              - name: CircuitBreaker
+#                args:
+#                  name: productCircuitBreaker
+#                  fallbackUri: forward:/fallback/product

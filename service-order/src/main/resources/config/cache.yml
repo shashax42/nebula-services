@@ -1,0 +1,16 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  data:
+    redis:
+      cluster:
+        max-redirects: ${REDIS_CLUSTER_MAX_REDIRECTS:3}
+        nodes:
+          - ${REDIS_CLUSTER_NODE_1_HOST}:${REDIS_CLUSTER_NODE_1_PORT}
+          - ${REDIS_CLUSTER_NODE_2_HOST}:${REDIS_CLUSTER_NODE_2_PORT}
+          - ${REDIS_CLUSTER_NODE_3_HOST}:${REDIS_CLUSTER_NODE_3_PORT}
+          - ${REDIS_CLUSTER_NODE_4_HOST}:${REDIS_CLUSTER_NODE_4_PORT}
+          - ${REDIS_CLUSTER_NODE_5_HOST}:${REDIS_CLUSTER_NODE_5_PORT}
+          - ${REDIS_CLUSTER_NODE_6_HOST}:${REDIS_CLUSTER_NODE_6_PORT}
+        password: ${REDIS_CLUSTER_PASSWORD:}
+      timeout: 500ms

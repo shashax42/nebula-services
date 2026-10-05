@@ -1,0 +1,43 @@
+services:
+  single-redis:
+    image: redis:latest
+    container_name: infra-redis
+    environment:
+      - REDIS_PASSWORD=root
+    ports:
+      - "6379:6379"
+    networks:
+      - default
+
+  account-db:
+    image: mysql:latest
+    environment:
+      - MYSQL_DATABASE=account
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "3316:3306"
+    networks:
+      - default
+
+  order-db:
+    image: mysql:latest
+    environment:
+      - MYSQL_DATABASE=order
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "3317:3306"
+    networks:
+      - default
+
+  product-db:
+    image: mysql:latest
+    environment:
+      - MYSQL_DATABASE=product
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "3318:3306"
+    networks:
+      - default
+
+networks:
+  default:

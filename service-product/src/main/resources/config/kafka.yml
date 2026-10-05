@@ -1,0 +1,8 @@
+spring:
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER1:localhost}:${KAFKA_BOOTSTRAP_PORT1:9094},${KAFKA_BOOTSTRAP_SERVER2:localhost}:${KAFKA_BOOTSTRAP_PORT2:9094},${KAFKA_BOOTSTRAP_SERVER3:localhost}:${KAFKA_BOOTSTRAP_PORT3:9094}
+    template:
+      default-topic: purchase
+      observation-enabled: true
+    consumer:
+      group-id: order

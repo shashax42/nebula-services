@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: "jdbc:mysql://${ORDER_DB_HOST:localhost}:${ORDER_DB_PORT:3317}/${ORDER_DB_DATABASE:order}"
+    username: ${ORDER_DB_USER:root}
+    password: ${ORDER_DB_PASSWORD:root}
+    hikari:
+      maximum-pool-size: 1
