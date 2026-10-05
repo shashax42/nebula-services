@@ -24,6 +24,7 @@ ext {
     set('springCloudVersion', "2023.0.4")
     // 보안 패치: Spring Boot 3.3.x 기본 Tomcat에 CRITICAL CVE (Trivy)
     set('tomcat.version', '10.1.59')
+    set('netty.version', '4.1.137.Final')
 }
 
 dependencies {
