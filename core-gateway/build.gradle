@@ -22,6 +22,8 @@ repositories {
 
 ext {
     set('springCloudVersion', "2023.0.4")
+    // 보안 패치: Spring Boot 3.3.x 기본 Tomcat에 CRITICAL CVE (Trivy)
+    set('tomcat.version', '10.1.58')
 }
 
 dependencies {
@@ -86,6 +88,12 @@ dependencies {
 }
 
 dependencyManagement {
+    dependencies {
+        // 보안 패치: kubernetes-client가 끌어오는 BouncyCastle 1.78 CRITICAL CVE (Trivy)
+        dependency 'org.bouncycastle:bcprov-jdk18on:1.85'
+        dependency 'org.bouncycastle:bcpkix-jdk18on:1.85'
+        dependency 'org.bouncycastle:bcutil-jdk18on:1.85'
+    }
     imports {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
         mavenBom "io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:2.6.0"
