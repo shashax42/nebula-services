@@ -1,7 +1,7 @@
 name: batch-order
 on:
-  push: { branches: [main], paths: ['batch-order/**'] }
-  pull_request: { paths: ['batch-order/**'] }
+  push: { branches: [main], paths: ['batch-order/**', '.github/workflows/batch-order.yml'] }
+  pull_request: { paths: ['batch-order/**', '.github/workflows/batch-order.yml'] }
 permissions: { contents: read, packages: write, id-token: write }
 jobs:
   pipeline:

@@ -1,7 +1,7 @@
 name: core-discovery
 on:
-  push: { branches: [main], paths: ['core-discovery/**'] }
-  pull_request: { paths: ['core-discovery/**'] }
+  push: { branches: [main], paths: ['core-discovery/**', '.github/workflows/core-discovery.yml'] }
+  pull_request: { paths: ['core-discovery/**', '.github/workflows/core-discovery.yml'] }
 permissions: { contents: read, packages: write, id-token: write }
 jobs:
   pipeline:

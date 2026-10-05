@@ -1,7 +1,7 @@
 name: core-gateway
 on:
-  push: { branches: [main], paths: ['core-gateway/**'] }
-  pull_request: { paths: ['core-gateway/**'] }
+  push: { branches: [main], paths: ['core-gateway/**', '.github/workflows/core-gateway.yml'] }
+  pull_request: { paths: ['core-gateway/**', '.github/workflows/core-gateway.yml'] }
 permissions: { contents: read, packages: write, id-token: write }
 jobs:
   pipeline:

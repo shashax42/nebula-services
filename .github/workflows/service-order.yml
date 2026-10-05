@@ -1,7 +1,7 @@
 name: service-order
 on:
-  push: { branches: [main], paths: ['service-order/**'] }
-  pull_request: { paths: ['service-order/**'] }
+  push: { branches: [main], paths: ['service-order/**', '.github/workflows/service-order.yml'] }
+  pull_request: { paths: ['service-order/**', '.github/workflows/service-order.yml'] }
 permissions: { contents: read, packages: write, id-token: write }
 jobs:
   pipeline:

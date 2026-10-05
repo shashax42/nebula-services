@@ -1,7 +1,7 @@
 name: service-product
 on:
-  push: { branches: [main], paths: ['service-product/**'] }
-  pull_request: { paths: ['service-product/**'] }
+  push: { branches: [main], paths: ['service-product/**', '.github/workflows/service-product.yml'] }
+  pull_request: { paths: ['service-product/**', '.github/workflows/service-product.yml'] }
 permissions: { contents: read, packages: write, id-token: write }
 jobs:
   pipeline:
