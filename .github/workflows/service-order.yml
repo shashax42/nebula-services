@@ -1,0 +1,10 @@
+name: service-order
+on:
+  push: { branches: [main], paths: ['service-order/**'] }
+  pull_request: { paths: ['service-order/**'] }
+permissions: { contents: read, packages: write, id-token: write }
+jobs:
+  pipeline:
+    uses: shashax42/nebula-ci-templates/.github/workflows/service-pipeline.yml@v1
+    with: { service: service-order, run-tests: false }
+    secrets: inherit

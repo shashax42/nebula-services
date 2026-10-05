@@ -7,7 +7,7 @@ COPY src /app/src
 
 RUN gradle build -x test
 
-FROM openjdk:21-slim
+FROM eclipse-temurin:21-jre
 
 COPY --from=builder /app/build/libs/service-order.jar .
 
