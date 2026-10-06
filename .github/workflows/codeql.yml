@@ -1,0 +1,38 @@
+# SAST: 소스 코드 정적 분석 (CodeQL)
+# - 이미지 취약점(Trivy)과 별개로 우리 코드 자체의 취약점(SQL injection, SSRF 등)을 찾는다.
+# - Java는 build-mode: none으로 빌드 없이 분석한다 (서비스 5개를 각각 빌드할 필요 없음).
+# - 결과는 Security → Code scanning에 쌓이고, ruleset의 code_scanning 규칙이
+#   high 이상 경고가 있는 PR의 머지를 막는다.
+name: codeql
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: '0 18 * * 0'   # 매주 월요일 03:00 KST, 새로 공개된 패턴으로 재검사
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    name: analyze (java)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write   # Code scanning에 결과 업로드
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4.38.2
+        with:
+          languages: java-kotlin
+          build-mode: none
+          queries: security-extended
+
+      - name: Analyze
+        uses: github/codeql-action/analyze@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4.38.2
+        with:
+          category: /language:java-kotlin
