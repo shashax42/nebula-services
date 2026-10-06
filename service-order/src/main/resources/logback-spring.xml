@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  kubernetes 프로필: stdout 한 줄 JSON (message, level, logger_name, traceId, spanId ...)
+    → OTel agent 가 파싱해 trace_id 로 트레이스와 연결하고, 개인정보를 마스킹한 뒤 CloudWatch Logs 로 보낸다.
+  그 외(dev 등): 기존 Spring Boot 콘솔 포맷 유지.
+  (Spring Boot 3.3 에는 내장 structured logging 이 없어 logstash-logback-encoder 를 사용)
+-->
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <springProfile name="kubernetes">
+        <appender name="JSON" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+        </appender>
+        <root level="INFO">
+            <appender-ref ref="JSON"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="!kubernetes">
+        <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+</configuration>
