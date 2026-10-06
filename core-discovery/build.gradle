@@ -25,6 +25,7 @@ ext {
     // 보안 패치: Boot 기본 Tomcat/Netty보다 높은 패치 버전 강제 (Trivy CRITICAL)
     set('tomcat.version', '10.1.59')
     set('netty.version', '4.1.137.Final')
+    set('freemarker.version', '2.3.35')  // Eureka 대시보드
 }
 
 
