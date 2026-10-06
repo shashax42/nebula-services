@@ -77,9 +77,10 @@ class AccountRepositoryTest {
         repository.save(Account.builder().email("repo-test@nebula.test").name("에이").build());
         em.flush();
 
-        assertThatThrownBy(() -> {
-            repository.save(Account.builder().email("repo-test@nebula.test").name("비").build());
-            em.flush();
-        }).isInstanceOf(DataIntegrityViolationException.class);
+        // saveAndFlush는 리포지토리 프록시를 거치므로 Hibernate 예외가
+        // 스프링의 DataIntegrityViolationException으로 변환된다 (em.flush()는 변환되지 않음).
+        assertThatThrownBy(() -> repository.saveAndFlush(
+                Account.builder().email("repo-test@nebula.test").name("비").build()))
+                .isInstanceOf(DataIntegrityViolationException.class);
     }
 }
