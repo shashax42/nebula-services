@@ -69,7 +69,7 @@ dependencies {
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
 
     // yaml exception messages
-    implementation 'dev.akkinoc.util:yaml-resource-bundle:2.+'
+    implementation 'dev.akkinoc.util:yaml-resource-bundle:2.15.0'  // 2.16+는 Kotlin 2.x 필요, Boot는 1.9.25로 고정 → 런타임 NoSuchMethodError
 
     // hypersistence utils for tsid generator
     implementation 'io.hypersistence:hypersistence-utils-hibernate-63:3+'
