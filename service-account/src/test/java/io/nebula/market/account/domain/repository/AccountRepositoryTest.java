@@ -9,12 +9,18 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.auditing.DateTimeProvider;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+
+import java.time.OffsetDateTime;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -32,10 +38,20 @@ class AccountRepositoryTest {
     @ServiceConnection
     static MySQLContainer<?> mysql = new MySQLContainer<>("mysql:8.4");
 
+    /**
+     * Account는 @DynamicInsert가 없어 created_date/modified_date를 JPA Auditing이 채운다.
+     * 운영의 JpaConfig와 같은 방식(OffsetDateTime 제공자)으로 Auditing을 켠다.
+     */
     @Configuration
     @EntityScan(basePackageClasses = Account.class)
     @EnableJpaRepositories(basePackageClasses = AccountRepository.class)
+    @EnableJpaAuditing(dateTimeProviderRef = "auditingDateTimeProvider")
     static class JpaSliceConfig {
+
+        @Bean
+        DateTimeProvider auditingDateTimeProvider() {
+            return () -> Optional.of(OffsetDateTime.now());
+        }
     }
 
     @Autowired
