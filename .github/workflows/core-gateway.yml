@@ -1,10 +1,10 @@
 name: core-gateway
 on:
   push: { branches: [main], paths: ['core-gateway/**', '.github/workflows/core-gateway.yml'] }
-  pull_request: { paths: ['core-gateway/**', '.github/workflows/core-gateway.yml'] }
+  pull_request:
 permissions: { contents: read, packages: write, id-token: write }
 jobs:
-  pipeline:
+  core-gateway:
     uses: shashax42/nebula-ci-templates/.github/workflows/service-pipeline.yml@v1
     with: { service: core-gateway, run-tests: false }
     secrets: inherit

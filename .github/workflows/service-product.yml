@@ -1,10 +1,10 @@
 name: service-product
 on:
   push: { branches: [main], paths: ['service-product/**', '.github/workflows/service-product.yml'] }
-  pull_request: { paths: ['service-product/**', '.github/workflows/service-product.yml'] }
+  pull_request:
 permissions: { contents: read, packages: write, id-token: write }
 jobs:
-  pipeline:
+  service-product:
     uses: shashax42/nebula-ci-templates/.github/workflows/service-pipeline.yml@v1
     with: { service: service-product, run-tests: false }
     secrets: inherit
