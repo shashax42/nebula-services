@@ -7,6 +7,7 @@ import io.nebula.market.order.application.service.OrderService;
 import io.nebula.market.order.domain.event.OrderCanceledEvent;
 import io.nebula.market.order.domain.model.Order;
 import io.nebula.market.order.domain.model.OrderState;
+import io.nebula.market.order.infrastructure.observability.FunnelMetrics;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Component;
 public class ProductEventConsumer {
 
     private final OrderService orderService;
+    private final FunnelMetrics funnelMetrics;
 
     @KafkaListener(topics = "refund", groupId = "order")
     public void handleOrderPlacedEvent(OrderCanceledEvent event) {
@@ -28,6 +30,7 @@ public class ProductEventConsumer {
                 .build();
 
         Order order = orderService.updateOrderState(updateOrderStateRequest);
+        funnelMetrics.record(FunnelMetrics.ORDER_CANCELED, FunnelMetrics.normalizeReason(event.reason()));
         log.info("주문 취소 완료: {}", order);
     }
 }

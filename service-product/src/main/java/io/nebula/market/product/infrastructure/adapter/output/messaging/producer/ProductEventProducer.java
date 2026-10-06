@@ -5,6 +5,7 @@ import io.micrometer.observation.ObservationRegistry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import io.nebula.market.product.domain.event.OrderCanceledEvent;
+import io.nebula.market.product.infrastructure.observability.FunnelMetrics;
 import org.springframework.context.event.EventListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
@@ -21,9 +22,11 @@ public class ProductEventProducer {
 
     private final KafkaTemplate<String, OrderCanceledEvent> kafkaTemplate;
     private final ObservationRegistry observationRegistry;
+    private final FunnelMetrics funnelMetrics;
 
     @EventListener
     public void handleStockNotAvailableEvent(OrderCanceledEvent event) {
+        funnelMetrics.record(FunnelMetrics.STOCK_REJECTED, FunnelMetrics.normalizeReason(event.reason()));
         try {
             Objects.requireNonNull(Observation.createNotStarted("refund", this.observationRegistry).observeChecked(() -> {
                 CompletableFuture<SendResult<String, OrderCanceledEvent>> future = kafkaTemplate.send("refund",

@@ -49,6 +49,9 @@ public class KafkaConfig {
     public ConcurrentKafkaListenerContainerFactory<String, OrderCanceledEvent> kafkaListenerContainerFactory() {
         var factory = new ConcurrentKafkaListenerContainerFactory<String, OrderCanceledEvent>();
         factory.setConsumerFactory(consumerFactory());
+        // 커스텀 팩토리는 spring.kafka.listener.* 자동설정을 받지 않으므로 직접 켠다
+        // → 수신 측 span 이 생성되고 producer 의 trace context 를 이어받는다 (사가 전체가 한 트레이스)
+        factory.getContainerProperties().setObservationEnabled(true);
         return factory;
     }
 
@@ -67,6 +70,9 @@ public class KafkaConfig {
     public KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate() {
         var kafkaTemplate = new KafkaTemplate<>(producerFactory());
         kafkaTemplate.setDefaultTopic(defaultTopic);
+        // 커스텀 KafkaTemplate 은 spring.kafka.template.observation-enabled 가 적용되지 않으므로 직접 켠다
+        // → 메시지 헤더에 traceparent 가 실려 소비자와 같은 트레이스로 연결된다
+        kafkaTemplate.setObservationEnabled(true);
         return kafkaTemplate;
     }
 }

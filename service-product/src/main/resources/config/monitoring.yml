@@ -1,55 +1,39 @@
+# 관측성 설정 (Nebula-Monitoring 아키텍처 기준)
+#   트레이스·메트릭: Micrometer → OTLP → 같은 노드의 OTel agent (otel-collector.monitoring.svc)
+#   로그: stdout (kubernetes 프로필은 JSON, traceId/spanId 포함) → agent 가 수집
+#   샘플링은 OTel gateway 의 tail sampling 이 결정하므로 앱은 100% 전송한다.
 management:
-  info:
-    os:
-      enabled: true
-    java:
-      enabled: true
-    process:
-      enabled: true
   endpoints:
     web:
       exposure:
-        include: '*'
+        # 필요한 엔드포인트만 노출 (헬스체크 + 정보). 메트릭은 OTLP 로 push 하므로 /prometheus 불필요
+        include: health,info
   endpoint:
     health:
-      enabled: true
-      show-details: always
+      show-details: never
       probes:
         enabled: true
-    info:
-      enabled: true
-    caches:
-      enabled: true
   health:
     livenessstate:
       enabled: true
     readinessstate:
       enabled: true
-  prometheus:
-    metrics:
-      export:
-        enabled: true
-  zipkin:
-    tracing:
-      endpoint: http://${ZIPKIN_ENDPOINT:localhost}:9411/api/v2/spans
   tracing:
     sampling:
       probability: 1.0
+  opentelemetry:
+    resource-attributes:
+      service.name: ${spring.application.name}
   otlp:
+    tracing:
+      endpoint: ${OTEL_EXPORTER_OTLP_ENDPOINT:http://localhost:4318}/v1/traces
     metrics:
       export:
-        url: http://${OTLP_ENDPOINT:localhost}:4318/v1/metrics
-
-otel:
-  exporter:
-    otlp:
-      protocol: "http/protobuf"
-      endpoint: "https://otlp-gateway-prod-us-east-0.grafana.net/otlp"
-      headers:
-        "Authorization": "Basic ${OTLP_TOKEN}"
+        url: ${OTEL_EXPORTER_OTLP_ENDPOINT:http://localhost:4318}/v1/metrics
+        step: 30s
+        resource-attributes:
+          service.name: ${spring.application.name}
 
 logging:
   level:
-    org.springframework.cloud.gateway: TRACE
-    org.springframework.cloud.loadbalancer: TRACE
     root: info
