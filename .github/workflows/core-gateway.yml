@@ -6,5 +6,5 @@ permissions: { contents: read, packages: write, id-token: write }
 jobs:
   core-gateway:
     uses: shashax42/nebula-ci-templates/.github/workflows/service-pipeline.yml@v1
-    with: { service: core-gateway, run-tests: false }
+    with: { service: core-gateway }
     secrets: inherit

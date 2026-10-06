@@ -33,6 +33,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'org.springframework.boot:spring-boot-testcontainers'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.testcontainers:mysql'
 
     // lombok
     implementation 'org.projectlombok:lombok'
@@ -107,7 +110,14 @@ dependencyManagement {
 }
 
 tasks.named('test') {
-    useJUnitPlatform()
+    useJUnitPlatform {
+        // 전체 인프라(Redis 클러스터, Kafka, Eureka)가 필요한 테스트는 CI 기본 실행에서 제외
+        excludeTags 'integration'
+    }
+    testLogging {
+        events 'failed'
+        exceptionFormat 'full'
+    }
 }
 
 def querydslDir = "${project.projectDir}/build/generated/querydsl"
