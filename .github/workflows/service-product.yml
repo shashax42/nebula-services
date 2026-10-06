@@ -6,5 +6,5 @@ permissions: { contents: read, packages: write, id-token: write }
 jobs:
   service-product:
     uses: shashax42/nebula-ci-templates/.github/workflows/service-pipeline.yml@v1
-    with: { service: service-product, run-tests: false }
+    with: { service: service-product }
     secrets: inherit

@@ -92,5 +92,12 @@ dependencyManagement {
 }
 
 tasks.named('test') {
-    useJUnitPlatform()
+    useJUnitPlatform {
+        // 전체 인프라(Redis 클러스터, Kafka, Eureka)가 필요한 테스트는 CI 기본 실행에서 제외
+        excludeTags 'integration'
+    }
+    testLogging {
+        events 'failed'
+        exceptionFormat 'full'
+    }
 }
