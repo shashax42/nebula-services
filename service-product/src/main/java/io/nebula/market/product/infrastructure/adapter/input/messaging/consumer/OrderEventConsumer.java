@@ -6,6 +6,7 @@ import io.nebula.market.product.application.dto.request.UpdateProductStockDecrea
 import io.nebula.market.product.application.service.ProductService;
 import io.nebula.market.product.domain.event.OrderPlacedEvent;
 import io.nebula.market.product.domain.model.Product;
+import io.nebula.market.product.infrastructure.observability.FunnelMetrics;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 public class OrderEventConsumer {
 
     private final ProductService productService;
+    private final FunnelMetrics funnelMetrics;
 
     @KafkaListener(topics = "purchase", groupId = "order")
     public void handleOrderPlacedEvent(OrderPlacedEvent event) {
@@ -28,6 +30,7 @@ public class OrderEventConsumer {
                 .build();
 
         Product product = productService.updateStock(updateProductRequest);
+        funnelMetrics.record(FunnelMetrics.PURCHASE_CONSUMED);
         log.info("처리 완료: {}", product);
     }
 }
