@@ -23,6 +23,14 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     implementation 'org.springframework.boot:spring-boot-starter-batch'
+
+    // observability: Micrometer → OpenTelemetry(OTLP). 다른 서비스와 같은 경로로 노드의 OTel agent 에 보낸다.
+    // 짧게 살다 끝나는 CronJob 이라 Push Gateway 대신 종료 시점에 OTLP 로 마지막 값을 push 한다.
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-tracing-bridge-otel'
+    implementation 'io.opentelemetry:opentelemetry-exporter-otlp'
+    implementation 'io.micrometer:micrometer-registry-otlp'
+    implementation 'net.logstash.logback:logstash-logback-encoder:8.0'
     testImplementation 'org.springframework.batch:spring-batch-test'
     runtimeOnly 'com.mysql:mysql-connector-j'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

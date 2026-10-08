@@ -7,3 +7,4 @@ spring:
     import:
       - "optional:classpath:/config/database.yml"
       - "optional:classpath:/config/batch.yml"
+      - "optional:classpath:/config/monitoring.yml"
