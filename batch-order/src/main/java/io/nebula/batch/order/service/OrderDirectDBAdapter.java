@@ -20,7 +20,6 @@ public class OrderDirectDBAdapter {
     }
 
     public int deleteOrder(OrderState desired, int week) {
-        System.out.println("deleteOrder");
         String sql = "DELETE FROM `order` " +
                 "WHERE order_state = ? " +
                 "AND order_date < DATE_SUB(NOW(), INTERVAL ? WEEK)";

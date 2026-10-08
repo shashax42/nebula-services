@@ -21,7 +21,8 @@ public class StepConfiguration {
     public Step changeOrderStateStep(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
         return new StepBuilder("changeOrderStateStep", jobRepository)
                 .tasklet((contribution, chunkContext) -> {
-                    adapter.updateOrderState(OrderState.CANCELED, OrderState.PENDING, 1);
+                    int rows = adapter.updateOrderState(OrderState.CANCELED, OrderState.PENDING, 1);
+                    contribution.incrementWriteCount(rows);
                     return RepeatStatus.FINISHED;
                 }, transactionManager).build();
     }
@@ -30,7 +31,8 @@ public class StepConfiguration {
     public Step deleteOrderStep(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
         return new StepBuilder("deleteOrderStep", jobRepository)
                 .tasklet((contribution, chunkContext) -> {
-                    adapter.deleteOrder(OrderState.CANCELED, 1);
+                    int rows = adapter.deleteOrder(OrderState.CANCELED, 1);
+                    contribution.incrementWriteCount(rows);
                     return RepeatStatus.FINISHED;
                 }, transactionManager).build();
     }
