@@ -1,0 +1,19 @@
+# Trivy 예외 목록 (nebula-ci-templates 의 이미지 취약점 게이트가 저장소 루트의 이 파일을 읽는다)
+#
+# 규칙
+# - 공격 경로가 없다는 근거를 적고, 반드시 exp:<날짜> 로 만료일을 건다.
+#   만료일이 지나면 Trivy 가 다시 빌드를 막으므로, 그때 재검토하거나 업그레이드한다.
+# - 같은 CVE 라도 해당 기능을 쓰기 시작하면 즉시 이 줄을 지운다.
+#
+# ---------------------------------------------------------------------------
+# spring-webmvc 6.x (core-gateway, service-account, service-order, service-product)
+#   수정 버전은 Spring Framework 7.0.9 (= Spring Boot 4) 에만 있고, Boot 3.x 용 오픈소스 패치는 없다.
+#   Boot 4 마이그레이션 전까지의 한시 예외. 2026-10-12 확인.
+#
+# CVE-2026-47884: XsltView 의 경로 제한 미흡으로 원격 코드 실행
+#   근거: 어느 서비스도 XsltView / XSLT 뷰를 쓰지 않는다 (서버 사이드 뷰 없이 JSON API 와 게이트웨이 라우팅만 함)
+CVE-2026-47884 exp:2026-12-31
+#
+# CVE-2026-47890: Server-Sent Events 와 뷰 렌더링을 함께 쓸 때 스트림 손상
+#   근거: SseEmitter / text/event-stream / 뷰 렌더링을 쓰는 코드가 없다
+CVE-2026-47890 exp:2026-12-31
