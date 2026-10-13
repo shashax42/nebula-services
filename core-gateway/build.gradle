@@ -53,7 +53,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     // auth0 security
-    implementation 'com.okta.spring:okta-spring-boot-starter:+'
+    // 3.0.8 = Spring Boot 3.5 대상 마지막 버전. 3.0.9+ 는 Boot 4(패키지 이동)용이라 기동 시 NoClassDefFoundError. '+' 로 되돌리지 말 것
+    implementation 'com.okta.spring:okta-spring-boot-starter:3.0.8'
 
     // jpa
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
